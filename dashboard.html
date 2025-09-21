@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teacher Dashboard - ESL Academy</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .video-wrapper {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: -2;
+    }
+
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px 40px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      display: none;
+      margin: 60px auto;
+      max-width: 800px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .welcome-flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .welcome-flex img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 30px;
+    }
+
+    .welcome-text h2 {
+      margin: 0;
+    }
+
+    .welcome-text p {
+      margin: 5px 0 0;
+    }
+
+    .plans {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .plan {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 250px;
+    }
+
+    .plan h3, .plan p {
+      color: #fff;
+    }
+
+    .plan button {
+      background: #007BFF;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px 5px 0 5px;
+    }
+
+    .plan button:hover {
+      background: #0056b3;
+    }
+
+    .profile label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .profile input,
+    .profile select,
+    .profile textarea {
+      width: 100%;
+      padding: 10px 15px;
+      margin: 8px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #fff;
+      color: #fff;
+    }
+
+    .profile input:focus,
+    .profile select:focus,
+    .profile textarea:focus {
+      outline: none;
+      border-bottom: 2px solid #007BFF;
+    }
+
+    .profile img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    .profile button {
+      background: #007BFF;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .profile button:hover {
+      background: #0056b3;
+    }
+
+    .locked {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .locked::before {
+      content: '🔒 ';
+      margin-right: 5px;
+    }
+
+    /* Custom Modal */
+    #customModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.95);
+      padding: 30px 40px;
+      border-radius: 8px;
+      z-index: 9999;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    #customModal p {
+      margin: 0;
+      font-size: 1.1em;
+    }
+
+    #customModal button {
+      margin-top: 20px;
+      padding: 8px 20px;
+      background: #007BFF;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    #customModal button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video Background -->
+  <div class="video-wrapper">
+    <video autoplay muted loop class="bg-video">
+      <source src="C:\Users\USER\Desktop\ESL website\anime-school-girl-train-sunset-moewalls-com.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <header>
+      <h1>ESL Academy</h1>
+      <nav>
+        <a data-section="home">Home</a>
+        <a data-section="plans">Plans</a>
+        <a data-section="contact">Contact</a>
+        <a data-section="profile">Profile</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HOME -->
+      <div id="home" class="section active">
+        <div class="welcome-flex">
+          <img src=https://cdn4.iconfinder.com/data/icons/instagram-ui-twotone/48/Paul-18-1024.png id="welcomePic" alt="Profile Photo">
+          <div class="welcome-text">
+            <h2>Welcome, <span id="userName">Teacher</span>!</h2>
+            <p>Inspire. Educate. Lead with kindness. Your journey as an excellent ESL teacher starts here.</p>
+          </div>
+        </div>
+
+        <div class="dashboard-details" style="margin: 40px auto 20px 80px; max-width: 800px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px;">
+          <h3 class="locked">Daily Tip</h3>
+          <p id="dailyTip" style="cursor: pointer; text-decoration: underline; color: #00BFFF;">Click here to see today’s tip</p>
+
+          <h3 class="locked">Quote of the Day</h3>
+          <p id="quoteDay" style="cursor: pointer; text-decoration: underline; color: #00BFFF;">Click here to see today’s quote</p>
+
+          <h3 class="locked">Your Progress Tracker</h3>
+          <p id="progressTracker" style="cursor: pointer; text-decoration: underline; color: #00BFFF;">Click here to see your progress</p>
+        </div>
+      </div>
+
+     <!-- PLANS -->
+<div id="plans" class="section">
+  <h3>Available Plans</h3>
+  <div class="plans">
+    <div class="plan">
+      <h3>2 Weeks</h3>
+      <p><strong id="price2w">$20</strong></p>
+      <p>Intensive ESL training.</p>
+      <button data-payment="gcash">Pay with GCash</button>
+      <button data-payment="paymaya">Pay with PayMaya</button>
+    </div>
+    <div class="plan">
+      <h3>3 Weeks</h3>
+      <p><strong id="price3w">$30</strong></p>
+      <p>More practice & support.</p>
+      <button data-payment="gcash">Pay with GCash</button>
+      <button data-payment="paymaya">Pay with PayMaya</button>
+    </div>
+    <div class="plan">
+      <h3>1 Month</h3>
+      <p><strong id="price1m">$50</strong></p>
+      <p>Full training + certificate.</p>
+      <button data-payment="gcash">Pay with GCash</button>
+      <button data-payment="paymaya">Pay with PayMaya</button>
+    </div>
+  </div>
+</div>
+
+
+      <!-- CONTACT -->
+      <div id="contact" class="section">
+        <h3>Contact Us</h3>
+        <p>Email: support@eslacademy.com | Phone: +1 234 567 8900</p>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="profile" class="section profile">
+        <h3>Your Profile</h3>
+        <img src=https://cdn4.iconfinder.com/data/icons/instagram-ui-twotone/48/Paul-18-1024.png id="profilePic" alt="Profile Picture">
+        <input type="file" id="photoUpload" accept="image/*" style="display:none;">
+
+        <label>Name:</label>
+        <input type="text" id="profileName" placeholder="Full Name">
+
+        <label>Email:</label>
+        <input type="email" id="profileEmail" placeholder="Email">
+
+        <label>Phone Number:</label>
+        <input type="tel" id="profilePhone" placeholder="Phone Number">
+
+        <label>Country:</label>
+        <select id="profileCountry">
+          <option value="Philippines">Philippines</option>
+          <option value="USA">USA</option>
+          <option value="UK">UK</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Bio:</label>
+        <textarea id="profileBio" placeholder="Short Bio" rows="3"></textarea>
+
+        <label>Specialization / Skills:</label>
+        <input type="text" id="profileSkills" placeholder="Skills">
+
+        <label>Birthday:</label>
+        <input type="date" id="profileBirthday">
+
+        <label>Certificate Link:</label>
+        <input type="text" id="profileCertificate" placeholder="Teaching Certificate Link">
+
+        <button id="saveProfileBtn">Save Profile</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Custom Modal -->
+  <div id="customModal">
+    <p id="modalMessage"></p>
+    <button onclick="closeModal()">OK</button>
+  </div>
+
+ <script>
+  function showModal(message, isImage = false) {
+    const modalMessage = document.getElementById('modalMessage');
+    if (isImage) {
+      modalMessage.innerHTML = `<img src="${message}" alt="QR Code" style="max-width:300px; width:100%; display:block; margin: 0 auto;">`;
+    } else {
+      modalMessage.textContent = message;
+    }
+    document.getElementById('customModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('customModal').style.display = 'none';
+  }
+
+  // ✅ Load savedUser from localStorage
+  const savedUser = JSON.parse(localStorage.getItem('user')) || {
+    name: 'Teacher',
+    email: '',
+    phone: '',
+    country: 'USA',
+    bio: '',
+    skills: '',
+    birthday: '',
+    certificate: '',
+    photo: ''
+  };
+
+  // ✅ Make tempUser for editing profile only
+  let tempUser = {...savedUser};
+
+  // ✅ Update HOME page using savedUser only
+  document.getElementById('userName').textContent = savedUser.name;
+  if (savedUser.photo) {
+    document.getElementById('welcomePic').src = savedUser.photo;
+  }
+
+  // ✅ Set currency symbol
+  let currency = '$';
+  if (savedUser.country === 'Philippines') currency = '₱';
+  if (savedUser.country === 'UK') currency = '£';
+  document.getElementById('price2w').textContent = `${currency}50`;
+  document.getElementById('price3w').textContent = `${currency}70`;
+  document.getElementById('price1m').textContent = `${currency}100`;
+
+  // ✅ Load profile fields using tempUser
+  document.getElementById('profileName').value = tempUser.name;
+  document.getElementById('profileEmail').value = tempUser.email;
+  document.getElementById('profilePhone').value = tempUser.phone;
+  document.getElementById('profileCountry').value = tempUser.country;
+  document.getElementById('profileBio').value = tempUser.bio;
+  document.getElementById('profileSkills').value = tempUser.skills;
+  document.getElementById('profileBirthday').value = tempUser.birthday;
+  document.getElementById('profileCertificate').value = tempUser.certificate;
+
+  if (tempUser.photo) {
+    document.getElementById('profilePic').src = tempUser.photo;
+  }
+
+  // ✅ Profile pic upload only changes tempUser
+  document.getElementById('profilePic').onclick = () => {
+    document.getElementById('photoUpload').click();
+  };
+
+  document.getElementById('photoUpload').onchange = function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        tempUser.photo = e.target.result;
+        document.getElementById('profilePic').src = tempUser.photo;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // ✅ Update tempUser on input — does NOT touch savedUser
+  function updateTempProfile() {
+    tempUser.name = document.getElementById('profileName').value;
+    tempUser.email = document.getElementById('profileEmail').value;
+    tempUser.phone = document.getElementById('profilePhone').value;
+    tempUser.country = document.getElementById('profileCountry').value;
+    tempUser.bio = document.getElementById('profileBio').value;
+    tempUser.skills = document.getElementById('profileSkills').value;
+    tempUser.birthday = document.getElementById('profileBirthday').value;
+    tempUser.certificate = document.getElementById('profileCertificate').value;
+  }
+
+  document.getElementById('profileName').addEventListener('input', updateTempProfile);
+  document.getElementById('profileEmail').addEventListener('input', updateTempProfile);
+  document.getElementById('profilePhone').addEventListener('input', updateTempProfile);
+  document.getElementById('profileCountry').addEventListener('change', updateTempProfile);
+  document.getElementById('profileBio').addEventListener('input', updateTempProfile);
+  document.getElementById('profileSkills').addEventListener('input', updateTempProfile);
+  document.getElementById('profileBirthday').addEventListener('change', updateTempProfile);
+  document.getElementById('profileCertificate').addEventListener('input', updateTempProfile);
+
+  // ✅ Save tempUser → savedUser
+  document.getElementById('saveProfileBtn').onclick = () => {
+    updateTempProfile();
+    localStorage.setItem('user', JSON.stringify(tempUser));
+    showModal('Profile updated!');
+    // Also update homepage with new savedUser fields
+    document.getElementById('userName').textContent = tempUser.name;
+    if (tempUser.photo) {
+      document.getElementById('welcomePic').src = tempUser.photo;
+    }
+  };
+
+  // ✅ Logout clears all
+  document.getElementById('logoutBtn').onclick = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('activeSection');
+    localStorage.removeItem('activePlan');
+    window.location.href = 'index.html';
+  };
+
+  // ✅ Navigation — keep last section
+  document.querySelectorAll('nav a[data-section]').forEach(link => {
+    link.addEventListener('click', () => {
+      const sectionId = link.getAttribute('data-section');
+      localStorage.setItem('activeSection', sectionId);
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    });
+  });
+
+  const savedSection = localStorage.getItem('activeSection') || 'home';
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(savedSection).classList.add('active');
+
+  // ✅ Tips & quotes
+  const tips = [
+    "💡 Always prepare your lessons ahead of time.",
+    "💡 Smile and speak clearly for beginners.",
+    "💡 Keep instructions short and simple.",
+    "💡 Use visuals, props, and gestures to explain.",
+    "💡 Praise students often to boost confidence."
+  ];
+
+  const quotes = [
+    "“A teacher takes a hand, opens a mind, and touches a heart.”",
+    "“Education is the passport to the future.” — Malcolm X",
+    "“The best teachers teach from the heart, not from the book.”",
+    "“Teaching kids to count is fine, but teaching them what counts is best.” — Bob Talbert"
+  ];
+
+  const dailyTip = tips[Math.floor(Math.random() * tips.length)];
+  const dailyQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const hasActivePlan = localStorage.getItem('activePlan') === 'true';
+
+  document.getElementById('dailyTip').onclick = () => {
+    if (!hasActivePlan) {
+      showModal('🔒 This feature is locked. Please subscribe to a plan first.');
+      localStorage.setItem('activeSection', 'plans');
+      return;
+    }
+    showModal(dailyTip);
+  };
+
+  document.getElementById('quoteDay').onclick = () => {
+    if (!hasActivePlan) {
+      showModal('🔒 This feature is locked. Please subscribe to a plan first.');
+      localStorage.setItem('activeSection', 'plans');
+      return;
+    }
+    showModal(dailyQuote);
+  };
+
+  document.getElementById('progressTracker').onclick = () => {
+    if (!hasActivePlan) {
+      showModal('🔒 This feature is locked. Please subscribe to a plan first.');
+      localStorage.setItem('activeSection', 'plans');
+      return;
+    }
+    showModal('📈 Your Training Progress: 3 of 10 modules completed. Keep it up!');
+  };
+
+  const paymentLinks = {
+    gcash: 'images/4c8101e8-87b6-4902-a9c7-4e227d133273.jpg',
+    paymaya: 'images/baf117d2-1c80-4d2e-921f-451cc8d36f1c.jpg'
+  };
+
+  document.querySelectorAll('.plan button').forEach(btn => {
+    btn.onclick = () => {
+      const method = btn.getAttribute('data-payment');
+      const url = paymentLinks[method];
+      if (url) {
+        localStorage.setItem('activePlan', 'true');
+        showModal(url, true);
+      } else {
+        showModal('Payment method not available.');
+      }
+    };
+  });
+</script>
+
+</body>
+</html>
