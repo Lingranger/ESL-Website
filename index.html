@@ -2,27 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to ESL Academy</title>
   <link rel="stylesheet" href="css/styles.css">
+
   <style>
-    body, html {
+    * {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
+      box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
 
-    .bg-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      object-fit: cover;
+    html, body {
+      height: 100%;
+      overflow: hidden;
     }
 
+    /* Background Video */
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Dark overlay */
     .overlay {
       position: fixed;
       top: 0;
@@ -33,6 +41,7 @@
       z-index: 0;
     }
 
+    /* Header Navigation */
     header {
       position: absolute;
       top: 20px;
@@ -47,7 +56,7 @@
 
     header nav a {
       background: #007BFF;
-      color: #fff;
+      color: white;
       text-decoration: none;
       padding: 10px 20px;
       border-radius: 5px;
@@ -59,6 +68,7 @@
       background: #0056b3;
     }
 
+    /* Main Content */
     .content {
       position: relative;
       z-index: 1;
@@ -68,23 +78,23 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #fff;
+      color: white;
+      padding: 20px;
     }
 
     h1 {
       font-size: 3em;
-      margin: 0;
+      margin-bottom: 10px;
     }
 
     h2 {
       font-size: 1.5em;
-      margin-top: 10px;
+      margin-bottom: 30px;
     }
 
     .btn {
-      margin-top: 30px;
       background: #28a745;
-      color: #fff;
+      color: white;
       padding: 12px 25px;
       text-decoration: none;
       border-radius: 5px;
@@ -99,35 +109,30 @@
 </head>
 <body>
 
-  <!-- Background video -->
-   <div class="video-wrapper">
-<video autoplay muted loop class="bg-video"> <source src="videos/270431_small.mp4" type="video/mp4"> 
-  Your browser does not support the video tag.
-</video>
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="videos/214500_small.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
-
-  <!-- Dark overlay -->
+  <!-- Dark Overlay -->
   <div class="overlay"></div>
 
- 
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="signup.html">Sign Up</a>
+    </nav>
+  </header>
 
-
-  <!-- Hero content -->
+  <!-- Main Content -->
   <div class="content">
-    <main>
-      <h1>Welcome to ESL Academy</h1>
-      <h2>Master English with expert teachers anytime, anywhere</h2>
-      <a href="signup.html" class="btn">Get Started</a>
-    </main>
+    <h1>Welcome to ESL Academy</h1>
+    <h2>Master English with expert teachers anytime, anywhere</h2>
+    <a href="signup.html" class="btn">Get Started</a>
   </div>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
